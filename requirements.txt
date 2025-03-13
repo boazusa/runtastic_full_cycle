@@ -1,0 +1,7 @@
+pandas
+matplotlib
+pytest
+pytest-cov
+pytest-html
+selenium
+webdriver-manager
