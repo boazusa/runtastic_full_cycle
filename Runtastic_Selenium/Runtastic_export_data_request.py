@@ -116,6 +116,20 @@ class Selenium_Runtastic:
             print("\n".join(lines[:4]))
             sys.exit(1)  # Exit with an error
 
+    def accept_cookies(self):  # optional, not always asked
+        try:
+            # Check if the button exists
+            buttons = self.driver.find_elements(By.XPATH,
+                                           "//button[contains(@class, 'cm-btn') and contains(@class, "
+                                           "'black-bttn--adl')]")
+            if buttons:  # If the list is not empty, the button exists
+                buttons[0].click()  # Click the first matching button
+                print("Accept cookies button clicked!")
+        except Exception as e:
+            error_message(f"Accept cookies button wasn't asked:")
+            lines = str(e).split("\n")
+            print("\n".join(lines[:4]))
+
     def login(self):
         try:
             # Account & Data: // *[ @ id = "ember714"]
@@ -250,6 +264,7 @@ class Selenium_Runtastic:
 
     def view_account(self):
         self.select_location()
+        self.accept_cookies()
         # self.login()
         # self.accept_terms()
         # input("Press enter to quit")
@@ -269,6 +284,7 @@ class Selenium_Runtastic:
                 return 0
             else:
                 self.select_location()
+                self.accept_cookies()
                 self.login()
                 self.accept_terms()
                 self.export_data()      # export
@@ -295,6 +311,7 @@ class Selenium_Runtastic:
                 return 0
             else:
                 self.select_location()
+                self.accept_cookies()
                 self.login()
                 self.accept_terms()
                 was_downloaded = self.download_data(1000)    # download

@@ -1,4 +1,4 @@
-# Main Python script.
+# Main Python Pytest script.
 
 import time
 from datetime import datetime
