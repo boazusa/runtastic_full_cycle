@@ -118,11 +118,13 @@ class Selenium_Runtastic:
 
     def accept_cookies(self):  # optional, not always asked
         try:
+            time.sleep(random.uniform(3, 5))
             # Check if the button exists
             buttons = self.driver.find_elements(By.XPATH,
                                            "//button[contains(@class, 'cm-btn') and contains(@class, "
                                            "'black-bttn--adl')]")
             if buttons:  # If the list is not empty, the button exists
+                time.sleep(random.uniform(1, 3))
                 buttons[0].click()  # Click the first matching button
                 print("Accept cookies button clicked!")
         except Exception as e:
