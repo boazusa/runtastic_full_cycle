@@ -22,7 +22,6 @@ import time
 from datetime import datetime
 import random
 
-
 """ NOT IN USE
 from selenium.webdriver import Keys
 from selenium.webdriver.support.ui import Select
@@ -33,6 +32,7 @@ from selenium.webdriver.chrome.service import Service
 
 DOWNLOADS_PATH = r"C:\Users\USER\Downloads"
 DESTINATION_FOLDER = r"C:\Users\USER\Documents\Python\Runtastic_script_My_PC"
+
 
 def error_message(_txt):
     print(f"{'*' * 20} {_txt:^30} {'*' * 20}")
@@ -71,6 +71,7 @@ def clean_directory(directory, exclude_folder):
         # Remove directories
         elif os.path.isdir(item_path):
             shutil.rmtree(item_path)
+
 
 class Selenium_Runtastic:
     def __init__(self, _email, _password):
@@ -125,8 +126,8 @@ class Selenium_Runtastic:
             time.sleep(random.uniform(3, 5))
             # Check if the button exists
             buttons = self.driver.find_elements(By.XPATH,
-                                           "//button[contains(@class, 'cm-btn') and contains(@class, "
-                                           "'black-bttn--adl')]")
+                                                "//button[contains(@class, 'cm-btn') and contains(@class, "
+                                                "'black-bttn--adl')]")
             if buttons:  # If the list is not empty, the button exists
                 time.sleep(random.uniform(1, 3))
                 buttons[0].click()  # Click the first matching button
@@ -179,12 +180,18 @@ class Selenium_Runtastic:
     def export_data(self):
         time.sleep(random.uniform(5, 10))
         try:
-            export_button = self.driver.find_element("css selector", "a.bttn-primary.black-bttn-solid--adl")
-            export_button.click()
-            time.sleep(random.uniform(2, 5))
-        except ElementClickInterceptedException as e:
-            print(f"Element click intercepted!\nExport is already in process.")
+            buttons = self.driver.find_elements(By.XPATH,
+                                                "//a[contains(@class, 'bttn') and contains(text(), 'Export Data')]")
+            if buttons:
+                buttons[0].click()
+            else:
+                export_button = self.driver.find_element("css selector", "a.bttn-primary.black-bttn-solid--adl")
+                export_button.click()
+                time.sleep(random.uniform(2, 5))
+        # except ElementClickInterceptedException as e:
+        #     print(f"Element click intercepted!\nExport is already in process.")
         except Exception as e:
+
             error_message(f"Export button Error:")
             lines = str(e).split("\n")
             print("\n".join(lines[:4]))
@@ -293,7 +300,7 @@ class Selenium_Runtastic:
                 self.accept_cookies()
                 self.login()
                 self.accept_terms()
-                self.export_data()      # export
+                self.export_data()  # export
                 self.driver_quit()
                 #
                 ciar.update_last_run(ciar.EXPORT_LAST_RUN_FILE)
@@ -320,7 +327,7 @@ class Selenium_Runtastic:
                 self.accept_cookies()
                 self.login()
                 self.accept_terms()
-                was_downloaded = self.download_data(1000)    # download
+                was_downloaded = self.download_data(1000)  # download
                 self.driver_quit()
                 if was_downloaded:
                     self.move_downloaded_file()
