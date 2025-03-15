@@ -79,6 +79,10 @@ class Selenium_Runtastic:
                                     "(KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36")
         chrome_options.add_argument("--user-data-dir=C:\\Users\\boazusa\\AppData\\Local\\Google\\Chrome\\User Data")
         chrome_options.add_argument("--profile-directory=Default")  # Use your actual Chrome profile
+        chrome_options.add_argument("--headless")  # Run in headless mode (no UI)
+        chrome_options.add_argument("--no-sandbox")  # Fix for Jenkins
+        chrome_options.add_argument("--disable-dev-shm-usage")  # Fix shared memory issues
+        chrome_options.add_argument("--window-size=1920,1080")  # Optional: set window size
 
         self.driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
 
