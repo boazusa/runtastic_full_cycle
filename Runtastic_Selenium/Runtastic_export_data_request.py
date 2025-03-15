@@ -188,6 +188,7 @@ class Selenium_Runtastic:
                 export_button = self.driver.find_element("css selector", "a.bttn-primary.black-bttn-solid--adl")
                 export_button.click()
                 time.sleep(random.uniform(2, 5))
+            return 1
         # except ElementClickInterceptedException as e:
         #     print(f"Element click intercepted!\nExport is already in process.")
         except Exception as e:
@@ -195,6 +196,7 @@ class Selenium_Runtastic:
             error_message(f"Export button Error:")
             lines = str(e).split("\n")
             print("\n".join(lines[:4]))
+            return -1
         #
         # input("PRESS ENTER")
 
@@ -296,17 +298,19 @@ class Selenium_Runtastic:
                           f"{datetime.fromtimestamp(float(export_on)).strftime('%Y-%m-%d %H:%M:%S')}")
                 return 0
             else:
+                flag = 1
                 self.select_location()
                 self.accept_cookies()
                 self.login()
                 self.accept_terms()
-                self.export_data()  # export
+                flag = self.export_data()  # export
                 self.driver_quit()
                 #
-                ciar.update_last_run(ciar.EXPORT_LAST_RUN_FILE)
-                ciar.remove_last_run_file(ciar.DOWNLOAD_LAST_RUN_FILE)
-                print("Export process was clicked")
-                return 1
+                if flag == 1:
+                    ciar.update_last_run(ciar.EXPORT_LAST_RUN_FILE)
+                    ciar.remove_last_run_file(ciar.DOWNLOAD_LAST_RUN_FILE)
+                    print("Export process was clicked")
+                return flag
         except Exception as e:
             print(f"There was an error in starting the export process\n{e}")
             return -1
