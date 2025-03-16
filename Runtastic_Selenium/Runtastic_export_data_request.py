@@ -11,13 +11,13 @@ import zipfile
 from .args_parser import get_args
 from . import check_if_already_ran as ciar
 #
+from selenium.webdriver.chrome.service import Service
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import ElementClickInterceptedException
-import undetected_chromedriver as uc
 
 import time
 from datetime import datetime
@@ -76,25 +76,26 @@ def clean_directory(directory, exclude_folder):
 
 class Selenium_Runtastic:
     def __init__(self, _email, _password):
-        chrome_options = webdriver.ChromeOptions()
-        chrome_options.add_argument(
-            "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
-        chrome_options.add_argument("--user-data-dir=C:\\Users\\boazusa\\AppData\\Local\\Google\\Chrome\\User Data")
-        chrome_options.add_argument("--profile-directory=Default")
-        chrome_options.add_argument("--start-maximized")
-        chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+        chrome_options = Options()
+        chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                                    "(KHTML, like Gecko) Chrome/134.0.6998.88 Safari/537.36")
+        chrome_user = r"C:\Users\USER\AppData\Local\Google\Chrome\User Data"
+        chrome_options.add_argument(f"--user-data-dir={chrome_user}")
+        chrome_options.add_argument("--profile-directory=Default")  # Use your actual Chrome profile
+        # chrome_options.add_argument("--headless")  # Run in headless mode (no UI)
+        chrome_options.add_argument("--no-sandbox")  # Fix for Jenkins
+        chrome_options.add_argument("--disable-dev-shm-usage")  # Fix shared memory issues
+        # chrome_options.add_argument("--window-size=1920,1080")  # Optional: set window size
 
-        # Remove bot-detection flags
-        chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
-        chrome_options.add_experimental_option("useAutomationExtension", False)
+        self.driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
 
-        # Use undetected_chromedriver
-        self.driver = uc.Chrome(options=chrome_options)
+        # Use local chromedriver
+        # CHROMEDRIVER_PATH = r"C:\Users\USER\.wdm\drivers\chromedriver\win64\134.0.6998.88\chromedriver-win32" \
+        #                     r"/chromedriver.exe"  # Make sure this path is correct
+        # chrome_service = Service(CHROMEDRIVER_PATH)
+        # self.driver = webdriver.Chrome(service=chrome_service, options=chrome_options)
 
         self.driver.get('https://www.runtastic.com/login')
-
-        # Remove Selenium detection
-        self.driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
 
         self.email = _email
         self.password = _password
