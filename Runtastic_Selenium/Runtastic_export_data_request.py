@@ -17,6 +17,7 @@ from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import ElementClickInterceptedException
+import undetected_chromedriver as uc
 
 import time
 from datetime import datetime
@@ -75,19 +76,26 @@ def clean_directory(directory, exclude_folder):
 
 class Selenium_Runtastic:
     def __init__(self, _email, _password):
-        chrome_options = Options()
-        chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-                                    "(KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36")
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument(
+            "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
         chrome_options.add_argument("--user-data-dir=C:\\Users\\boazusa\\AppData\\Local\\Google\\Chrome\\User Data")
-        chrome_options.add_argument("--profile-directory=Default")  # Use your actual Chrome profile
-        # chrome_options.add_argument("--headless")  # Run in headless mode (no UI)
-        chrome_options.add_argument("--no-sandbox")  # Fix for Jenkins
-        chrome_options.add_argument("--disable-dev-shm-usage")  # Fix shared memory issues
-        # chrome_options.add_argument("--window-size=1920,1080")  # Optional: set window size
+        chrome_options.add_argument("--profile-directory=Default")
+        chrome_options.add_argument("--start-maximized")
+        chrome_options.add_argument("--disable-blink-features=AutomationControlled")
 
-        self.driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
+        # Remove bot-detection flags
+        chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
+        chrome_options.add_experimental_option("useAutomationExtension", False)
+
+        # Use undetected_chromedriver
+        self.driver = uc.Chrome(options=chrome_options)
 
         self.driver.get('https://www.runtastic.com/login')
+
+        # Remove Selenium detection
+        self.driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+
         self.email = _email
         self.password = _password
         self.downloaded_file = ""
