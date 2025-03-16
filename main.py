@@ -34,7 +34,6 @@ def main():
         test = runtastic_data_filter(r"C:\Users\USER\Documents\Python\Runtastic_script_My_PC\export-20250304-000"
                                      r"\Sport-sessions\\", "plots")
         test.create_main_dataframe()
-        test.execute(mode=0)
         print(test)
         test.plot_all()
         #
