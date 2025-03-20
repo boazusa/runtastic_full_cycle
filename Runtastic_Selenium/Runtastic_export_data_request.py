@@ -16,14 +16,22 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver import Keys
+
 from selenium.common.exceptions import ElementClickInterceptedException
+
+# import undetected_chromedriver as uc
+# from undetected_chromedriver import ChromeOptions
+# from undetected_chromedriver import By
+# driver = uc.Chrome(
+#     browser_executable_path="C:\\Users\\boazusa\\AppData\\Local\\Google\\Chrome\\User Data")
+
 
 import time
 from datetime import datetime
 import random
 
 """ NOT IN USE
-from selenium.webdriver import Keys
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -77,8 +85,9 @@ class Selenium_Runtastic:
     def __init__(self, _email, _password):
         chrome_options = Options()
         chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-                                    "(KHTML, like Gecko) Chrome/132.0.6834.159 Safari/537.36")
+                                    "(KHTML, like Gecko) Chrome/134.0.6998.88 Safari/537.36")
         chrome_options.add_argument("--user-data-dir=C:\\Users\\boazusa\\AppData\\Local\\Google\\Chrome\\User Data")
+        # chrome_options.add_argument(r"--user-data-dir=C:\Users\USER\AppData\Local\Google\Chrome\User Data\Profile 1")
         chrome_options.add_argument("--profile-directory=Default")  # Use your actual Chrome profile
         # chrome_options.add_argument("--headless")  # Run in headless mode (no UI)
         chrome_options.add_argument("--no-sandbox")  # Fix for Jenkins
@@ -96,6 +105,7 @@ class Selenium_Runtastic:
 
     def select_location(self):
         try:
+            time.sleep(random.uniform(3, 5))
             israel_radio_span = self.driver.find_element("xpath",
                                                          "//span[@class='gl-radio-input__label' and text()='Israel']")
             israel_radio_span.click()
@@ -141,10 +151,18 @@ class Selenium_Runtastic:
         try:
             # Account & Data: // *[ @ id = "ember714"]
             email = self.driver.find_element(By.ID, "ember730")
-            email.send_keys(self.email)
+            for c in self.email:
+                time.sleep(random.uniform(0.1, 0.4))
+                email.send_keys(c)
+            email.send_keys(Keys.TAB)
+
             time.sleep(random.uniform(1, 3))
             password = self.driver.find_element(By.ID, "ember732")
-            password.send_keys(self.password)
+            for c in self.password:
+                time.sleep(random.uniform(0.1, 0.5))
+                password.send_keys(c)
+            time.sleep(random.uniform(1, 2))
+            password.send_keys(Keys.RETURN)
             #
             time.sleep(random.uniform(2, 5))
             #
@@ -225,6 +243,11 @@ class Selenium_Runtastic:
         # input("PRESS ENTER")
 
     def move_downloaded_file(self):
+        if not self.downloaded_file:
+            downloads_path = r"C:\Users\USER\Downloads"
+            for file in os.listdir(downloads_path):
+                if "export-" in file and file.endswith(".zip"):
+                    self.downloaded_file = downloads_path + r'\\' + file
         if self.downloaded_file:
             source_file = self.downloaded_file
             destination_folder = DESTINATION_FOLDER
@@ -290,7 +313,6 @@ class Selenium_Runtastic:
     def export_cycle(self):
         try:
             if ciar.has_run_recently(ciar.EXPORT_LAST_RUN_FILE):
-                # print("Export is already in process")
                 self.driver_quit()
                 with open(ciar.EXPORT_LAST_RUN_FILE, "r") as f:
                     export_on = f.read()
@@ -318,7 +340,6 @@ class Selenium_Runtastic:
     def download_cycle(self):
         try:
             if ciar.has_run_recently(ciar.DOWNLOAD_LAST_RUN_FILE):
-                # print(f"Activities were already downloaded")
                 self.driver_quit()
                 with open(ciar.DOWNLOAD_LAST_RUN_FILE, "r") as f:
                     download_on = f.read()
@@ -333,8 +354,7 @@ class Selenium_Runtastic:
                 self.accept_terms()
                 was_downloaded = self.download_data(1000)  # download
                 self.driver_quit()
-                if was_downloaded:
-                    self.move_downloaded_file()
+                if self.move_downloaded_file():
                     self.unzip_file()
                     self.remove_unused_files_and_folders()
                     #
