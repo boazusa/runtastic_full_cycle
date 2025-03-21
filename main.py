@@ -2,6 +2,7 @@
 
 from Runtastic_Selenium import Selenium_Runtastic, args_parser
 from runtastic_analysis import runtastic_data_filter, Runtastic_Data_To_Csv, OUTPUT_DIR_LOCATION
+import os
 
 
 def main():
@@ -26,13 +27,15 @@ def main():
         print(analyze_data)
         print(plot_data.create_main_dataframe())
     else:
-        # print(f"file_path: {file_path}")
-        analyze_data = Runtastic_Data_To_Csv(_files_path=r"C:\Users\USER\Documents\Python\Runtastic_script_My_PC"
-                                                         r"\export-20250304-000\Sport-sessions\\",
-                                             _output_path=r"analysis\\")
+        file_path = "control/last_download_path.txt"
+        if os.path.exists(file_path):
+            with open(file_path, "r") as file:
+                latest_path = file.read().strip()
+        else:
+            latest_path = r"C:\Users\USER\Documents\Python\Runtastic_script_My_PC\export-20250304-000\Sport-sessions\\"
+        analyze_data = Runtastic_Data_To_Csv(_files_path=latest_path, _output_path=r"analysis\\")
         analyze_data.execute(mode=0)
-        test = runtastic_data_filter(r"C:\Users\USER\Documents\Python\Runtastic_script_My_PC\export-20250304-000"
-                                     r"\Sport-sessions\\", "plots")
+        test = runtastic_data_filter(latest_path, "plots")
         test.create_main_dataframe()
         print(test)
         test.plot_all()
