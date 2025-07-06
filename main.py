@@ -45,7 +45,10 @@ def main():
         print(test.plot_yearly_activity(2023))
         print(test.plot_yearly_activity(2024))
         print(test.plot_yearly_activity(2025))
-
+        print(test.plot_monthly_activity('08', '2024'))
+        print(test.plot_monthly_activity('6', '2022', "#9b2b70"))
+        print(test.plot_monthly_activity('5', '2019', "#5c9b2b"))
+        print(test.plot_monthly_activity('1', '2025', "#2b9b4b"))
 
 if __name__ == '__main__':
     main()

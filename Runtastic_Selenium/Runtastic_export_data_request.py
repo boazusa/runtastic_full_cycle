@@ -243,12 +243,12 @@ class Selenium_Runtastic:
         # input("PRESS ENTER")
 
     def move_downloaded_file(self):
-        if not self.downloaded_file:
+        if not self.downloaded_file:                        # search in Downloads for manual downloaded activities
             downloads_path = r"C:\Users\USER\Downloads"
             for file in os.listdir(downloads_path):
                 if "export-" in file and file.endswith(".zip"):
                     self.downloaded_file = downloads_path + r'\\' + file
-        if self.downloaded_file:
+        if self.downloaded_file:                            # get automated downloaded activities
             source_file = self.downloaded_file
             destination_folder = DESTINATION_FOLDER
 

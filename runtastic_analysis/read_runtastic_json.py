@@ -24,6 +24,7 @@ DEBUG = 0
 # PATH = r"C:\Users\USER\Documents\Python\Runtastic_script_My_PC\Jsons_for_new_Script"
 # PATH = r'C:\Users\USER\Documents\Python\Runtastic_script_My_PC\export-20240426-000\Sport-sessions\\'  # _output_path
 PATH = r'C:\Users\USER\Documents\Python\Runtastic_script_My_PC\export-20250104-000\Sport-sessions\\'
+PATH = r'C:\Users\USER\Documents\Python\Runtastic_script_My_PC\export-20250522-000\Sport-sessions\\'
 OUTPUT_DIR_LOCATION = r'C:\Users\USER\Documents\Python\Runtastic_script_My_PC\Excel_and_CSV_new\\'  # _output_path
 
 # Jerusalem Marathon
