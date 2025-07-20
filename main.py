@@ -32,7 +32,7 @@ def main():
             with open(file_path, "r") as file:
                 latest_path = file.read().strip()
         else:
-            latest_path = r"C:\Users\USER\Documents\Python\Runtastic_script_My_PC\export-20250304-000\Sport-sessions\\"
+            latest_path = r"C:\Users\USER\Documents\Python\Runtastic_script_My_PC\export-20250522-000\Sport-sessions\\"
         analyze_data = Runtastic_Data_To_Csv(_files_path=latest_path, _output_path=r"analysis\\")
         analyze_data.execute(mode=0)
         test = runtastic_data_filter(latest_path, "plots")

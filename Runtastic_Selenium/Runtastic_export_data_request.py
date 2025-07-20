@@ -112,9 +112,11 @@ class Selenium_Runtastic:
             #
             time.sleep(random.uniform(2, 4))
             # (1) Click Using XPath (Recommended), Locate and click the "Continue" button
-            continue_button = self.driver.find_element("xpath",
-                                                       "//a[contains(@class, 'gl-cta--primary') "
-                                                       "and span[text()='Continue']]")
+            # continue_button = self.driver.find_element("xpath",
+            #                                            "//a[contains(@class, 'gl-cta--primary') "
+            #                                            "and span[text()='Continue']]")
+            # continue_button = self.driver.find_element(By.XPATH, "//span[text()='Continue']")
+            continue_button = self.driver.find_element(By.XPATH, "//span[text()='Continue']/..")
             #
             # (2) Click Using CSS Selector
             # continue_button = self.driver.find_element("css selector", "a.gl-cta--primary")
@@ -236,8 +238,10 @@ class Selenium_Runtastic:
             return self.downloaded_file
         except Exception as e:
             error_message(f"download data Error:")
-            lines = str(e).split("\n")
-            print("\n".join(lines[:4]))
+            print(f"Exception: {str(e)}")
+            # lines = str(e).split("\n")
+            # print("\n".join(lines[:4]))
+            self.downloaded_file = None
             return None
         #
         # input("PRESS ENTER")
