@@ -438,6 +438,6 @@ if __name__ == "__main__":
 
 """
 
-cd C:\\Users\\USER\\Documents\Python\\Selenium_Tutorial
+cd C:\\Users\\USER\\Documents\\Python\\Selenium_Tutorial
 python -m Runtastic_Selenium.Runtastic_export_data_request -e  *** -p ***
 """

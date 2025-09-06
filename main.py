@@ -32,7 +32,8 @@ def main():
             with open(file_path, "r") as file:
                 latest_path = file.read().strip()
         else:
-            latest_path = r"C:\Users\USER\Documents\Python\Runtastic_script_My_PC\export-20250522-000\Sport-sessions\\"
+            # TODO - Search for the latest "export-..." folder
+            latest_path = r"C:\Users\USER\Documents\Python\Runtastic_script_My_PC\export-20250706-000\Sport-sessions\\"
         analyze_data = Runtastic_Data_To_Csv(_files_path=latest_path, _output_path=r"analysis\\")
         analyze_data.execute(mode=0)
         test = runtastic_data_filter(latest_path, "plots")
@@ -50,5 +51,26 @@ def main():
         print(test.plot_monthly_activity('5', '2019', "#5c9b2b"))
         print(test.plot_monthly_activity('1', '2025', "#2b9b4b"))
 
+def plots_only():
+    latest_path = r"C:\Users\USER\Documents\Python\Runtastic_script_My_PC\export-20250706-000\Sport-sessions\\"
+    analyze_data = Runtastic_Data_To_Csv(_files_path=latest_path, _output_path=r"analysis\\")
+    analyze_data.execute(mode=0)
+    test = runtastic_data_filter(latest_path, "plots")
+    test.create_main_dataframe()
+    print(test)
+    test.plot_all()
+    #
+    # additional
+    print(test.plot_yearly_activity(2022))
+    print(test.plot_yearly_activity(2023))
+    print(test.plot_yearly_activity(2024))
+    print(test.plot_yearly_activity(2025))
+    print(test.plot_monthly_activity('08', '2024'))
+    print(test.plot_monthly_activity('6', '2022', "#9b2b70"))
+    print(test.plot_monthly_activity('5', '2019', "#5c9b2b"))
+    print(test.plot_monthly_activity('1', '2025', "#2b9b4b"))
+
+
 if __name__ == '__main__':
     main()
+    # plots_only()
