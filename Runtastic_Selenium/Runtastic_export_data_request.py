@@ -396,6 +396,14 @@ class Selenium_Runtastic:
             else:
                 print("Error occurred while downloading the sports sessions json files")
             return None
+        elif datetime.today().day in [14, 15]: # directly load the latest package from downloads
+            if self.move_downloaded_file():
+                self.unzip_file()
+                self.remove_unused_files_and_folders()
+                #
+                ciar.update_last_run(ciar.DOWNLOAD_LAST_RUN_FILE)
+                ciar.remove_last_run_file(ciar.EXPORT_LAST_RUN_FILE)
+            return self.sport_sessions_folder()
         else:
             self.view_account()
             return None

@@ -33,7 +33,7 @@ def main():
                 latest_path = file.read().strip()
         else:
             # TODO - Search for the latest "export-..." folder
-            latest_path = r"C:\Users\USER\Documents\Python\Runtastic_script_My_PC\export-20250706-000\Sport-sessions\\"
+            latest_path = r"C:\Users\USER\Documents\Python\Runtastic_script_My_PC\export-20251231-000\Sport-sessions\\"
         analyze_data = Runtastic_Data_To_Csv(_files_path=latest_path, _output_path=r"analysis\\")
         analyze_data.execute(mode=0)
         test = runtastic_data_filter(latest_path, "plots")
