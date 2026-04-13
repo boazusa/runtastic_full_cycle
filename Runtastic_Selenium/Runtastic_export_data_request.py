@@ -40,7 +40,7 @@ from selenium.webdriver.chrome.service import Service
 
 DOWNLOADS_PATH = r"C:\Users\USER\Downloads"
 DESTINATION_FOLDER = r"C:\Users\USER\Documents\Python\Runtastic_script_My_PC"
-
+TODAY = 15
 
 def error_message(_txt):
     print(f"{'*' * 20} {_txt:^30} {'*' * 20}")
@@ -396,7 +396,7 @@ class Selenium_Runtastic:
             else:
                 print("Error occurred while downloading the sports sessions json files")
             return None
-        elif datetime.today().day in [14, 15]: # directly load the latest package from downloads
+        elif datetime.today().day in [TODAY, 14, 15]: # directly load the latest package from downloads
             if self.move_downloaded_file():
                 self.unzip_file()
                 self.remove_unused_files_and_folders()

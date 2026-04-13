@@ -4,6 +4,7 @@ from Runtastic_Selenium import Selenium_Runtastic, args_parser
 from runtastic_analysis import runtastic_data_filter, Runtastic_Data_To_Csv, OUTPUT_DIR_LOCATION
 import os
 
+LATEST_PATH = r"C:\Users\USER\Documents\Python\Runtastic_script_My_PC\export-20260409-000\Sport-sessions\\"
 
 def main():
     args = args_parser.get_args()
@@ -33,7 +34,7 @@ def main():
                 latest_path = file.read().strip()
         else:
             # TODO - Search for the latest "export-..." folder
-            latest_path = r"C:\Users\USER\Documents\Python\Runtastic_script_My_PC\export-20251231-000\Sport-sessions\\"
+            latest_path = LATEST_PATH
         analyze_data = Runtastic_Data_To_Csv(_files_path=latest_path, _output_path=r"analysis\\")
         analyze_data.execute(mode=0)
         test = runtastic_data_filter(latest_path, "plots")
@@ -46,13 +47,14 @@ def main():
         print(test.plot_yearly_activity(2023))
         print(test.plot_yearly_activity(2024))
         print(test.plot_yearly_activity(2025))
+        print(test.plot_yearly_activity(2026))
         print(test.plot_monthly_activity('08', '2024'))
         print(test.plot_monthly_activity('6', '2022', "#9b2b70"))
         print(test.plot_monthly_activity('5', '2019', "#5c9b2b"))
         print(test.plot_monthly_activity('1', '2025', "#2b9b4b"))
 
 def plots_only():
-    latest_path = r"C:\Users\USER\Documents\Python\Runtastic_script_My_PC\export-20250706-000\Sport-sessions\\"
+    latest_path = LATEST_PATH
     analyze_data = Runtastic_Data_To_Csv(_files_path=latest_path, _output_path=r"analysis\\")
     analyze_data.execute(mode=0)
     test = runtastic_data_filter(latest_path, "plots")
